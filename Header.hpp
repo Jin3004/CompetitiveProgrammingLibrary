@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
+#include <cmath>
 
 using Int = int32_t;
 using namespace std;
@@ -18,6 +19,11 @@ using namespace std;
 Int Gcd(Int a, Int b) {
 	if (b == 0)return a;
 	else return Gcd(a, a % b);
+}
+
+//aとbの最小公倍数を求める関数。計算量はO(log min(a, b)) 上のGcdとセットでコピペしてね
+Int Lcm(Int a, Int b) {
+	return a * b / Gcd(a, b);
 }
 
 ///素因数分解をする関数。計算量はO(√n)
@@ -102,7 +108,7 @@ Int BinarySearch(Int l, Int r, Func func) {
 
 }
 
-//aとbが割り切れるまで割る(既約分数になるまで)
+//aとbが割り切れるまで割る(既約分数になるまで)。計算量はO(√n + n)
 std::pair<Int, Int> Reduce(Int a, Int b) {
 
 	const auto f = [](Int n) -> unordered_map<Int, Int> {
@@ -126,7 +132,7 @@ std::pair<Int, Int> Reduce(Int a, Int b) {
 	for (auto itr = res_a.begin(); itr != res_a.end(); ++itr) {
 		auto tmp = res_b.find(itr->first);
 		if (tmp != res_b.end()) {//もしbにも同様の因数があったら
-			ans *= (min(res_b[itr->first], itr->second) * itr->first);
+			ans *= (pow(itr->first, min(res_b[itr->first], itr->second)));
 		}
 	}
 
