@@ -139,3 +139,18 @@ std::pair<Int, Int> Reduce(Int a, Int b) {
 	return make_pair(a / ans, b / ans);
 
 }
+
+//‘f””»’èBŒvZ—Ê‚ÍO(log ãn)B
+bool IsPrime(Int n) {
+
+	if (n < 2)return false;
+	else if (n == 2)return true;
+	else if (n % 2 == 0)return false;
+
+	for (Int i = 3; i * i <= n; ++i) {
+		if (n % i == 0)return false;
+	}
+
+	return true;
+
+}
