@@ -140,7 +140,7 @@ std::pair<Int, Int> Reduce(Int a, Int b) {
 
 }
 
-//素数判定。計算量はO(log √n)。
+//素数判定。計算量はO(√n)。
 bool IsPrime(Int n) {
 
 	if (n < 2)return false;
