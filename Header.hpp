@@ -11,14 +11,15 @@
 #include <set>
 #include <unordered_set>
 #include <cmath>
+#include <algorithm>
 
 using Int = int32_t;
 using namespace std;
 
 ///aとbの最大公約数を求める関数。計算量はO(log min(a, b))
 Int Gcd(Int a, Int b) {
-	if (b == 0)return a;
-	else return Gcd(a, a % b);
+	if (a % b == 0)return b;
+	else return Gcd(b, a % b);
 }
 
 //aとbの最小公倍数を求める関数。計算量はO(log min(a, b)) 上のGcdとセットでコピペしてね
