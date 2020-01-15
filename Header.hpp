@@ -109,6 +109,19 @@ Int BinarySearch(Int l, Int r, Func func) {
 
 }
 
+//[l, r]のうち、関数オブジェクトfを満たす最小の値を返す。
+Int BinarySearch(Int l, Int r) {
+
+	auto f = []() {return true; };//ここは適宜変えてください
+
+	Int left = l - 1, right = r + 1;
+	while (right - left > 1) {
+		Int mid = left + (right - left) / 2;
+		if (f())right = mid; else left = mid;
+	}
+	return right;
+}
+
 //aとbが割り切れるまで割る(既約分数になるまで)。計算量はO(√n + n)
 std::pair<Int, Int> Reduce(Int a, Int b) {
 
