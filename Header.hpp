@@ -168,3 +168,20 @@ bool IsPrime(Int n) {
 	return true;
 
 }
+
+struct Point {
+	Int x, y;
+	Point(Int x, Int y) :x(x), y(y) {}
+
+	Point operator+(Point arg) {
+		return Point(x + arg.x, y + arg.y);
+	}
+
+	Point operator+(Point arg) {
+		return Point(x - arg.x, y - arg.y);
+	}
+};
+
+bool inrange(Int l, Int r, Int val) {
+	return l <= val && val <= r;
+}
