@@ -185,3 +185,62 @@ struct Point {
 bool inrange(Int l, Int r, Int val) {
 	return l <= val && val <= r;
 }
+
+//This sample is RMQ. Change a little difference by yourself.
+template<typename Function>
+class SegmentTree {
+public:
+	Int invalid_value = Int_max;
+	Int depth = 1;
+	Int leaf_size, tree_size, arr_size;
+	Function f;
+	Container data;
+
+	//計算量はO(n)。*nは配列の長さ
+	SegmentTree(Container arg, Function func) {
+
+		f = func;
+		arr_size = arg.size();
+		Int n = 1;
+		tree_size = 1;
+
+		while (n < arr_size) {//完全二分木にするため2^n > lenとなる最小の2^nを求める
+			n *= 2;
+			tree_size += n;
+			depth++;
+		}
+		leaf_size = n;
+		data.resize(tree_size);//木の配列のサイズを初期化
+
+		for (Int i = 0; i < n; ++i) {//葉の値を初期化
+			if (i <= arr_size - 1)data[n + i - 1] = arg[i];
+			else data[n + i - 1] = invalid_value;
+		}
+		//goes well till here.
+
+		Int tmp_size = leaf_size;
+		for (Int i = 0; i < depth - 1; ++i) {
+			for (Int j = 0; j < tmp_size / 2; ++j) {//ノードは(j * 2, j * 2 + 1)
+				data[(tmp_size + j * 2 - 2) / 2] = f(data[tmp_size + j * 2 - 1], data[tmp_size + j * 2]);
+			}
+			tmp_size /= 2;
+		}
+
+	}
+
+	//k番目の配列の値をvalに変える。
+	void update(Int k, Int val) {
+		//木のインデックスに変える
+		k += leaf_size - 1;
+		data[k] = val;
+		//再帰的に更新する
+		while (k > 0) {
+			k = (k - 1) / 2;
+			data[k] = f(data[k * 2 + 1], data[k * 2 + 2]);
+		}
+		rep(i, tree_size) {
+			debug(data[i]);
+		}
+	}
+
+};
