@@ -12,9 +12,22 @@
 #include <unordered_set>
 #include <cmath>
 #include <algorithm>
-
-using Int = int32_t;
+#define rep(i, n) for(Int (i) = 0; (i) < (n); (i)++)
+#define debug(var) cout << #var << ": " << var << endl
 using namespace std;
+using Int = int64_t;
+using Uint = uint64_t;
+constexpr Uint mod = 1e9 + 7;
+constexpr Int Int_max = LLONG_MAX;
+constexpr Int Int_min = LLONG_MIN;
+using Container = vector<Int>;
+using Grid = vector<vector<char>>; // [y][x]
+template<typename T, typename U>
+using Umap = unordered_map<T, U>;
+template<typename T>
+using Uset = unordered_set<T>;
+template<typename T>
+using P = pair<T, T>;
 
 ///aとbの最大公約数を求める関数。計算量はO(log min(a, b))
 Int Gcd(Int a, Int b) {
@@ -197,9 +210,8 @@ public:
 	Container data;
 
 	//計算量はO(n)。*nは配列の長さ
-	SegmentTree(Container arg, Function func) {
-
-		f = func;
+	SegmentTree(Container arg, Function func)
+		: f(func) {
 		arr_size = arg.size();
 		Int n = 1;
 		tree_size = 1;
@@ -228,7 +240,7 @@ public:
 
 	}
 
-	//k番目の配列の値をvalに変える。
+	//k番目の配列の値をvalに変える。計算量はO(log n)
 	void update(Int k, Int val) {
 		//木のインデックスに変える
 		k += leaf_size - 1;
@@ -238,12 +250,24 @@ public:
 			k = (k - 1) / 2;
 			data[k] = f(data[k * 2 + 1], data[k * 2 + 2]);
 		}
-		rep(i, tree_size) {
-			debug(data[i]);
-		}
 	}
 
+	//[a, b)のクエリを返す。使うときはquery(a, b, 0, 0, n)で呼び出してね。計算量はO(log n)
+	Int query(Int a, Int b, Int k = 0, Int l = 0, Int r = -1) {
+		if (r < 0)r = leaf_size;
+		if (r <= a || b <= l)return invalid_value;
+		if (a <= l && r <= b)return data[k];
+		Int vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
+		Int vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
+		return f(vl, vr);
+	}
 };
+
+template<typename Function>
+SegmentTree<Function> make_SegmentTree(Container arg, Function func) {
+	SegmentTree<Function> seg(arg, func);
+	return seg;
+}
 
 //数字の先頭の数を返す。O(log10(n))
 Int head(Int n) {
