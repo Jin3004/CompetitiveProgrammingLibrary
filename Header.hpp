@@ -244,3 +244,21 @@ public:
 	}
 
 };
+
+//”š‚Ìæ“ª‚Ì”‚ğ•Ô‚·BO(log10(n))
+Int head(Int n) {
+	Int tmp = n;
+	while (n > 0) {
+		tmp = n;
+		n /= 10;
+	}
+	return tmp;
+}
+
+//”š‚Ì––”ö‚Ì”‚ğ•Ô‚·BO(1)
+int tail(Int n) {
+	if (n < 10)return n;
+	Int tmp = n;
+	n /= 10;
+	return tmp - n * 10;
+}
