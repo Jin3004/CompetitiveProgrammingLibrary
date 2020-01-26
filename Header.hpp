@@ -286,3 +286,84 @@ int tail(Int n) {
 	n /= 10;
 	return tmp - n * 10;
 }
+
+struct mint {
+	Int x;
+	mint(Int x = 0) :x((x% mod + mod) % mod) {}
+	mint operator-() const { return mint(-x); }
+	mint& operator+=(const mint a) {
+		if ((x += a.x) >= mod) x -= mod;
+		return *this;
+	}
+	mint& operator-=(const mint a) {
+		if ((x += mod - a.x) >= mod) x -= mod;
+		return *this;
+	}
+	mint& operator*=(const mint a) {
+		(x *= a.x) %= mod;
+		return *this;
+	}
+	mint operator+(const mint a) const {
+		mint res(*this);
+		return res += a;
+	}
+	mint operator-(const mint a) const {
+		mint res(*this);
+		return res -= a;
+	}
+	mint operator*(const mint a) const {
+		mint res(*this);
+		return res *= a;
+	}
+	mint operator%(const mint a)const {
+		mint res(*this);
+		res -= (res / a) * a;
+		return res;
+	}
+	mint pow(Int t) const {
+		if (t == 0) return 1;
+		mint a = pow(t >> 1);
+		a *= a;
+		if (t & 1) a *= *this;
+		return a;
+	}
+
+	// for prime mod
+	mint inv() const {
+		return pow(mod - 2);
+	}
+	mint& operator/=(const mint a) {
+		return (*this) *= a.inv();
+	}
+	mint operator/(const mint a) const {
+		mint res(*this);
+		return res /= a;
+	}
+
+	friend ostream& operator<<(ostream& os, const mint& p) {
+		return os << p.x;
+	}
+	friend istream& operator>>(istream& is, mint& p) {
+		Int tmp;
+		is >> tmp;
+		p = tmp;
+		return is;
+	}
+
+};
+
+template<typename T>
+void debug_table(Grid<T>& cont) {
+	cout << "   ";
+	rep(i, cont[0].size()) {
+		cout << i << " ";
+	}
+	cout << endl;
+	rep(i, cont.size()) {
+		cout << i << ": ";
+		rep(j, cont[i].size()) {
+			cout << cont[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
