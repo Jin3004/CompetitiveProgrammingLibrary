@@ -18,10 +18,10 @@ using namespace std;
 using Int = int64_t;
 using Uint = uint64_t;
 constexpr Uint mod = 1e9 + 7;
-constexpr Int Int_max = LLONG_MAX;
-constexpr Int Int_min = LLONG_MIN;
+constexpr Int INF = INT_MAX;
 using Container = vector<Int>;
-using Grid = vector<vector<char>>; // [y][x]
+template<typename T>
+using Grid = vector<vector<T>>; // “ñŸŒ³”z—ñB[y][x]
 template<typename T, typename U>
 using Umap = unordered_map<T, U>;
 template<typename T>
