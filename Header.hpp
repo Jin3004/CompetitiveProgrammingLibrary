@@ -12,6 +12,8 @@
 #include <unordered_set>
 #include <cmath>
 #include <algorithm>
+#include <memory>
+#include <iomanip>
 #define rep(i, n) for(Int (i) = 0; (i) < (n); (i)++)
 #define debug(var) cout << #var << ": " << var << endl
 using namespace std;
@@ -280,11 +282,24 @@ Int head(Int n) {
 }
 
 //数字の末尾の数を返す。O(1)
-int tail(Int n) {
+Int tail(Int n) {
 	if (n < 10)return n;
 	Int tmp = n;
 	n /= 10;
 	return tmp - n * 10;
+}
+
+//numの各桁を返す。 例: digit(702) == {7, 0, 2} 計算量O(log10(n))
+auto digit(Int num) {
+	vector<Int> res = { num % 10 };
+	Int tmp = num / 10;
+	while (tmp) {
+		res.push_back(tmp % 10);
+		tmp /= 10;
+	}
+	reverse(res.begin(), res.end());
+
+	return res;
 }
 
 struct mint {
