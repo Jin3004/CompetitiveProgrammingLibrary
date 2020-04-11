@@ -382,3 +382,27 @@ void debug_table(Grid<T>& cont) {
 		cout << endl;
 	}
 }
+
+class UnionFind {
+public:
+	vector<Int> d;
+	UnionFind(Int n) : d(n, -1) {}
+
+	Int root(Int x) {
+		if (d[x] < 0)return x;
+		return d[x] = root(d[x]);
+	}
+
+	bool unite(Int x, Int y) {
+		x = root(x); y = root(y);
+		if (x == y)return false;
+		if (d[x] > d[y])swap(x, y);
+		d[x] += d[y];
+		d[y] = x;
+		return true;
+	}
+
+	bool same(Int x, Int y) { return root(x) == root(y); }
+	Int size(Int x) { return -d[root(x)]; }
+
+};

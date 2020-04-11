@@ -41,38 +41,40 @@ template<typename T>
 using Uset = unordered_set<T>;
 template<typename T>
 using P = pair<T, T>;
+using Graph = vector<vector<bool>>;
 
-//numの各桁を返す。 例: digit(702) == {7, 0, 2} 計算量O(log10(n))
-auto digit(Int num) {
-	vector<Int> res = { num % 10 };
-	Int tmp = num / 10;
-	while (tmp) {
-		res.push_back(tmp % 10);
-		tmp /= 10;
+class UnionFind {
+public:
+	vector<Int> d;
+	UnionFind(Int n) : d(n, -1) {}
+
+	Int root(Int x) {
+		if (d[x] < 0)return x;
+		return d[x] = root(d[x]);
 	}
 
-	return res;
-}
+	bool unite(Int x, Int y) {
+		x = root(x); y = root(y);
+		if (x == y)return false;
+		if (d[x] > d[y])swap(x, y);
+		d[x] += d[y];
+		d[y] = x;
+		return true;
+	}
 
+	bool same(Int x, Int y) { return root(x) == root(y); }
+	Int size(Int x) { return -d[root(x)]; }
+
+};
 
 void calc() {
 
-	/*
-	Int N, M; cin >> N >> M;
-	vector<Int> s(M), c(M);
-	rep(i, M)cin >> s[i] >> c[i];
-
-	for (Int num = 0; num <= 999; ++num) {
-		rep(i, M) {
-
-		}
-	}*/
-
-	auto res = digit(702);
-	for (const auto elem : res) {
-		cout << elem << endl;
+	Int N, M, K; cin >> N >> M >> K;
+	UnionFind uf(N);
+	rep(i, M) {
+		Int a, b; cin >> a >> b; a--; b--;
+		uf.unite(a, b);
 	}
-
 
 }
 
